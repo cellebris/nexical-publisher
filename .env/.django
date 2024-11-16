@@ -1,0 +1,13 @@
+# General
+# ------------------------------------------------------------------------------
+DOMAIN_NAME="localhost"
+BASE_UI_URL="http://localhost:3000"
+BASE_API_URL="http://localhost:8080"
+
+USE_DOCKER=yes
+
+DJANGO_SECRET_KEY="F4NkDilGYL78K855QwI8ndq97mlUtVNUv3C6xga1YsDoDScHhfJqdc4ePZxaRXzr"
+
+# Mailgun
+# ------------------------------------------------------------------------------
+MAILGUN_API_URL="https://api.mailgun.net/v3"

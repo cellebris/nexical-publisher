@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags crispy_forms_field %}
+
+{% block title %}
+  Manage Team Documents
+{% endblock title %}
+{% block css %}
+  {{ block.super }}
+  {{ form.media.css }}
+{% endblock css %}
+{% block javascript %}
+  {{ block.super }}
+  <script defer src="{% static 'js/document-page.min.js' %}"></script>
+{% endblock javascript %}
+{% block inline_javascript %}
+  {{ form.media.js }}
+{% endblock inline_javascript %}
+{% block content %}
+  {% if collection_count > 0 %}
+    <div class="mt-1 mb-0 mx-5">
+      <a id="btn-back" href="{% url 'documents:list' %}" class="btn btn-primary mb-5 d-flexx align-items-center d-inline-flex"><i class="bx bx-chevron-left"></i><span>Back to list</span></a>
+    </div>
+  {% endif %}
+  <div class="container">
+    <div class="row bg-white rounded-5 page-wrapper d-flex justify-content-center">
+      <div class="container">
+        <div class="col">
+          <div id="document-form">
+            <h2>
+              {% if operation == 'create' %}
+                Create a new Document Collection
+              {% else %}
+                Update Document Collection
+              {% endif %}
+            </h2>
+            {% if form.errors %}
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                  </div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% if files.errors %}
+              {% for field in files %}
+                {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                    <strong>{{ error|escape|title }} error</strong>
+                  </div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in files.non_form_errors %}
+                <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% if bookmarks.errors %}
+              {% for field in bookmarks %}
+                {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                    <strong>{{ error|escape|title }} error</strong>
+                  </div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in bookmarks.non_form_errors %}
+                <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+                </div>
+              {% endfor %}
+            {% endif %}
+            <form class="form-horizontal" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="p-3">
+                {{ form.name|as_crispy_field }}
+                {{ form.description|as_crispy_field }}
+                {{ form.access_teams|as_crispy_field }}
+              </div>
+              <nav class="collection-form-nav mt-5">
+                <div class="nav nav-tabs" id="nav-collection-tab" role="tablist" aria-orientation="horizontal">
+                  <button class="user-setting nav-link first-nav active"
+                          id="files-tab"
+                          data-bs-toggle="pill"
+                          data-bs-target="#h-pills-collection-files"
+                          data-user-setting="collection_focus"
+                          data-user-value="files"
+                          type="button"
+                          role="tab"
+                          aria-controls="h-pills-collection-files"
+                          aria-selected="false">Files</button>
+                  <button class="user-setting nav-link last-nav"
+                          id="bookmarks-tab"
+                          data-bs-toggle="pill"
+                          data-bs-target="#h-pills-collection-bookmarks"
+                          data-user-setting="collection_focus"
+                          data-user-value="bookmarks"
+                          type="button"
+                          role="tab"
+                          aria-controls="h-pills-collection-bookmarks"
+                          aria-selected="true">Bookmarks</button>
+                </div>
+              </nav>
+              <div class="tab-content h-100" id="h-pills-collection-tab-content">
+                <div class="collection-form-tab-wrapper tab-pane fade show active"
+                     id="h-pills-collection-files"
+                     role="tabpanel"
+                     aria-labelledby="h-pills-collection-files-tab">
+                  <div class="files-form-wrapper inline-form-wrapper">
+                    <div class="alert alert-info d-flex flex-row gap-1">
+                      <div class="mx-3 my-auto">
+                        <i class="bx bx-info-circle"></i>
+                      </div>
+                      <div class="mx-3">
+                        <strong>PDF, DOCX, or TXT files currently supported</strong>
+                      </div>
+                    </div>
+                    {{ files.management_form }}
+                    <table id="file-form-table" class="inline-form-table">
+                      {% for file_form in files.forms %}
+                        <tr class="file-form mt-2" data-basename="files-{{ forloop.counter0 }}">
+                          <td class="file-input form-field">
+                            {{ file_form.id }}
+                            {{ file_form.file|as_crispy_field }}
+                            {{ file_form.description|as_crispy_field }}
+                          </td>
+                          <td class="file-delete delete">
+                            <div class="delete-button">
+                              <span class="material-symbols-outlined">delete</span>
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      <tr id="file-empty-form" class="d-none mt-2">
+                        <td class="file-input form-field">
+                          {{ files.empty_form.file|as_crispy_field }}
+                          {{ files.empty_form.description|as_crispy_field }}
+                        </td>
+                        <td class="file-delete delete">
+                          <div class="delete-button">
+                            <span class="material-symbols-outlined">delete</span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <div class="file-add-wrapper inline-form-controls">
+                      <button type="button" id="add-files" class="add-inline-form-button">
+                        <span class="material-symbols-outlined">add_circle</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="collection-form-tab-wrapper tab-pane fade"
+                     id="h-pills-collection-bookmarks"
+                     role="tabpanel"
+                     aria-labelledby="h-pills-collection-bookmarks-tab">
+                  <div class="bookmarks-form-wrapper inline-form-wrapper">
+                    {{ bookmarks.management_form }}
+                    <table id="bookmark-form-table" class="inline-form-table">
+                      {% for bookmark_form in bookmarks.forms %}
+                        <tr class="bookmark-form mt-2" data-basename="bookmarks-{{ forloop.counter0 }}">
+                          <td class="bookmark-input form-field">
+                            {{ bookmark_form.id }}
+                            {{ bookmark_form.url|as_crispy_field }}
+                            {{ bookmark_form.description|as_crispy_field }}
+                          </td>
+                          <td class="bookmark-delete delete">
+                            <div class="delete-button">
+                              <span class="material-symbols-outlined">delete</span>
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      <tr id="bookmark-empty-form" class="d-none mt-2">
+                        <td class="bookmark-input form-field">
+                          {{ bookmarks.empty_form.url|as_crispy_field }}
+                          {{ bookmarks.empty_form.description|as_crispy_field }}
+                        </td>
+                        <td class="bookmark-delete delete">
+                          <div class="delete-button">
+                            <span class="material-symbols-outlined">delete</span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <div class="bookmark-add-wrapper inline-form-controls">
+                      <button type="button" id="add-bookmarks" class="add-inline-form-button">
+                        <span class="material-symbols-outlined">add_circle</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <button type="submit" class="btn btn-primary mt-3 px-5 py-3">
+                    {% if operation == 'create' %}
+                      Create
+                    {% else %}
+                      Update
+                    {% endif %}
+                  </button>
+                  {% if operation == 'update' %}
+                    <a href="{% url 'documents:remove' pk=object.id %}" class="btn btn-danger mt-3 px-5 py-3">Delete</a>
+                  {% endif %}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

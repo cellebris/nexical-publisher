@@ -1,0 +1,21 @@
+{% extends 'base_min.html' %}
+
+{% load static %}
+
+{% block title %}
+  Manage Team Project
+{% endblock title %}
+{% block css %}
+  {{ block.super }}
+  {{ form.media.css }}
+{% endblock css %}
+{% block javascript %}
+  {{ block.super }}
+  <script defer src="{% static 'js/project-page.min.js' %}"></script>
+{% endblock javascript %}
+{% block inline_javascript %}
+  {{ form.media.js }}
+{% endblock inline_javascript %}
+{% block content %}
+  {% include 'components/project_base_form.html' with hide_back=True %}
+{% endblock content %}

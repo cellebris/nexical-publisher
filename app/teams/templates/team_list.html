@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load render_table from django_tables2 %}
+
+{% block title %}
+  Manage Teams
+{% endblock title %}
+{% block javascript %}
+  {{ block.super }}
+  <script defer src="{% static 'js/team-page.min.js' %}"></script>
+{% endblock javascript %}
+{% block content %}
+  <div class="container mt-2 pt-2">
+    <div class="row bg-white rounded-5 page-wrapper d-flex justify-content-center">
+      <div class="container">
+        <div class="col">
+          <h1>Teams</h1>
+          <div class="row">
+            <div class="col">
+              <a id="btn-add-team"
+                 href="{% url 'teams:form_create' %}"
+                 class="btn btn-primary my-3 mr-5 float-end d-flex align-items-center">
+                <i class="bx bx-plus"></i>Create Team
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">{% render_table teams %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

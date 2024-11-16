@@ -1,0 +1,68 @@
+{% load i18n site_urls %}
+
+<div class="research-panel container-fluid">
+  <div class="page-wrapper p-3">
+    <div class="research-header-wrapper row">
+      <div class="d-md-flex justify-content-between">
+        <div class="project-selector">
+          <h1>Project Research</h1>
+        </div>
+        <div class="d-md-flex justify-content-end">
+          <div class="project-selector align-items-center mx-3">
+            <div class="d-md-flex justify-content-end align-items-center">
+              <label for="project-selector" class="form-label py-auto pr-3">Project</label>
+              <select id="project-selector" class="form-select py-auto px-5">
+                {% if not active_project %}<option value="" selected="selected">Select Project</option>{% endif %}
+                {% for project in projects %}
+                  <option id="project-{{ project.id }}"
+                          value="{{ project.id }}"
+                          data-url="{% ui_url 'projects/~set' project.id %}"
+                          {% if active_project and project.id == active_project.id %}selected="selected"{% endif %}>
+                    {{ project.name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          {% if active_project %}
+            <div class="project-op mt-0 mx-1">
+              <a href="#"
+                 data-href="{% url 'projects:modal_form_update' active_project.id %}"
+                 id="update-project-link"
+                 class="research-btn btn btn-primary">
+                <i class="bx bx-edit-alt mx-2"></i><span>Edit Project</span>
+              </a>
+            </div>
+          {% endif %}
+          <div class="project-op align-items-center mx-1">
+            <a href="#"
+               data-href="{% url 'projects:modal_form_create' %}"
+               id="create-project-link"
+               class="research-btn btn {% if active_project %}btn-primary{% else %}btn-success{% endif %}">
+              <i class="bx bx-plus-circle mx-2"></i><span>Create Project</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% if active_project %}
+        <div class="research-wrapper wait-for-load">
+          <div class="row">
+            <div class="timeline col-4">{% include 'components/timeline.html' %}</div>
+            <div class="forms col-8">{% include 'components/research_forms.html' %}</div>
+          </div>
+        </div>
+        <input type="hidden" id="project-id" value="{{ active_project.id }}" />
+        <input type="hidden" id="timeline-url" value="{% url 'research:timeline' active_project.id %}" />
+      {% else %}
+        <div class="research-wrapper">
+          <div class="project-create-message text-center">
+            <h2>You must first create a project to conduct research</h2>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% block modal %}
+  {% include 'components/iframe_modal.html' %}
+{% endblock modal %}
