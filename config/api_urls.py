@@ -22,6 +22,7 @@ router.register("document", views.TeamDocumentViewSet)
 router.register("summary", views.ProjectSummaryViewSet)
 router.register("note", views.ProjectNoteViewSet)
 router.register("feedback", views.FeedbackViewSet)
+router.register("form", views.FormSubmissionViewSet)
 # router.register("message", views.MessageViewSet)
 
 
