@@ -400,7 +400,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_THROTTLE_RATES": {
         "engine": env.str("API_ENGINE_USER_THROTTLE_RATE", default="100/sec"),
-        "team_member": env.str("API_TEAM_USER_THROTTLE_RATE", default="60/min"),
+        "team_member": env.str("API_TEAM_USER_THROTTLE_RATE", default="10/sec"),
     },
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
