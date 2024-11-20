@@ -19,15 +19,17 @@ views.generate(
     filter_fields={
         "id": "id",
         "session_id": "id",
+        "path": "short_text",
         "name": "short_text",
         "created": "date_time",
         "updated": "date_time"
     },
-    ordering_fields=["created", "name", "session_id"],
-    search_fields=["name", "session_id"],
+    ordering_fields=["created", "name", "session_id", "path"],
+    search_fields=["name", "session_id", "path"],
     view_fields=[
         "id",
         "session_id",
+        "path",
         "name",
         "created",
         "updated",
@@ -35,6 +37,7 @@ views.generate(
     ],
     save_fields=[
         "session_id",
+        "path",
         "name",
         "fields",
     ],

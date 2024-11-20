@@ -8,6 +8,7 @@ from app.events.models import Event
 
 class FormSubmission(BaseUUIDModel):
     session_id = models.CharField(_("Session ID"), blank=False, max_length=50)
+    path = models.CharField(_("Path"), blank=False, max_length=1024)
     name = models.CharField(_("Name"), blank=False, max_length=255)
     fields = fields.DictionaryField(_("Fields"))
 
@@ -21,6 +22,7 @@ class FormSubmission(BaseUUIDModel):
                 "operation": operation,
                 "id": str(self.id),
                 "session_id": self.session_id,
+                "path": self.path,
                 "name": self.name,
                 "fields": self.fields
             },
