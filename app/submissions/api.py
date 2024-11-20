@@ -18,20 +18,23 @@ views.generate(
     permission_classes=[permissions.EnginePermissions],
     filter_fields={
         "id": "id",
+        "session_id": "id",
         "name": "short_text",
         "created": "date_time",
         "updated": "date_time"
     },
-    ordering_fields=["name"],
-    search_fields=["name"],
+    ordering_fields=["created", "name", "session_id"],
+    search_fields=["name", "session_id"],
     view_fields=[
         "id",
+        "session_id",
         "name",
         "created",
         "updated",
         "fields"
     ],
     save_fields=[
+        "session_id",
         "name",
         "fields",
     ],
