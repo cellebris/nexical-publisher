@@ -8,7 +8,11 @@ from app.events.models import Event
 from app.teams.models import Team, get_team_settings, update_team_settings
 from app.utils.models import BaseUUIDModel
 
-SUMMARY_MODELS = (("mixtral_di_7bx8", _("Mixtral 8x7b (Default)")),)
+SUMMARY_MODELS = (
+    ("mixtral_7bx8", _("Mixtral 7bx8 (Default)")),
+    ("mixtral_22bx8", _("Mixtral 22bx8")),
+    ("llama3_70b", _("Llama 3.1 70b")),
+)
 
 
 def get_active_project(user, id_only=False):
@@ -41,6 +45,23 @@ class TeamProject(BaseUUIDModel):
         " identify key concepts, and generate a coherent and concise summary."
         " This AI summarization model is used for all AI summarization requests in this project.",
     )
+    summary_topic_model = models.CharField(
+        _("Summarization AI Model used for topic analysis "),
+        max_length=60,
+        choices=SUMMARY_MODELS,
+        blank=True,
+        null=True,
+        help_text="This AI summarization model is used if selected to perform internal analysis on passages before drafting the final summary",
+    )
+    summary_prompt_model = models.CharField(
+        _("Summarization AI Model used for generating research prompts to discover topics "),
+        max_length=60,
+        choices=SUMMARY_MODELS,
+        blank=True,
+        null=True,
+        help_text="This AI summarization model is used if selected to generate a topic research prompt for document collections",
+    )
+
     summary_persona = models.TextField(
         _("Research Persona"),
         blank=True,
@@ -87,6 +108,8 @@ Generate an engaging summary on the topic with appropriate headings, subheadings
                 "id": str(self.id),
                 "name": self.name,
                 "summary_model": self.summary_model,
+                "summary_topic_model": self.summary_topic_model,
+                "summary_prompt_model": self.summary_prompt_model,
                 "summary_persona": self.summary_persona,
                 "format_prompt": self.format_prompt,
                 "temperature": self.temperature,

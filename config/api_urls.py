@@ -23,6 +23,7 @@ router.register("summary", views.ProjectSummaryViewSet)
 router.register("note", views.ProjectNoteViewSet)
 router.register("feedback", views.FeedbackViewSet)
 router.register("form", views.FormSubmissionViewSet)
+router.register("embedding", views.TextEmbeddingViewSet)
 # router.register("message", views.MessageViewSet)
 
 

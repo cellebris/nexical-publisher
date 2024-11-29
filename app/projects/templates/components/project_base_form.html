@@ -48,6 +48,8 @@
                 <p class="mx-3 mb-0">These settings configure the AI research engine</p>
               </div>
               {{ form.summary_model|as_crispy_field }}
+              {{ form.summary_topic_model|as_crispy_field }}
+              {{ form.summary_prompt_model|as_crispy_field }}
               {{ form.summary_persona|as_crispy_field }}
               {{ form.format_prompt|as_crispy_field }}
             </div>

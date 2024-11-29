@@ -13,7 +13,17 @@ class AccessTeamWidget(s2forms.ModelSelect2MultipleWidget):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = models.TeamProject
-        fields = ["name", "summary_model", "summary_persona", "format_prompt", "documents", "projects", "access_teams"]
+        fields = [
+            "name",
+            "summary_model",
+            "summary_topic_model",
+            "summary_prompt_model",
+            "summary_persona",
+            "format_prompt",
+            "documents",
+            "projects",
+            "access_teams",
+        ]
         widgets = {
             "summary_persona": forms.Textarea(attrs={"rows": 5}),
             "format_prompt": forms.Textarea(attrs={"rows": 5}),
