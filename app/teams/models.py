@@ -81,12 +81,13 @@ def get_team_instance(
 
 def team_file_access(private_file):
     from app.documents.models import TeamDocumentCollection
+    from app.media.models import TeamMediaCollection
 
     user = private_file.request.user
     if user.is_authenticated:
         try:
             name_components = private_file.relative_name.split("/")
-            # instance_type = name_components[1]
+            instance_type = name_components[1]
             instance_id = name_components[2]
         except Exception:
             return False
@@ -95,8 +96,12 @@ def team_file_access(private_file):
         if not team:
             return False
         try:
-            get_team_instance(team, TeamDocumentCollection, instance_id)
-            return True
+            if instance_type == "doc":
+                get_team_instance(team, TeamDocumentCollection, instance_id)
+                return True
+            elif instance_type == "media":
+                get_team_instance(team, TeamMediaCollection, instance_id)
+                return True
         except TeamAccessError:
             pass
 

@@ -2368,6 +2368,143 @@ td.documents-remove span {
   border-top: 1px solid $light-grey;
 }
 
+///////////////////////////////
+// Team Media Collections //
+///////////////////////////////
+
+.media-processed {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.media-processing {
+  width: 50px;
+  height: 45px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.media-time-icon {
+  font-size: 1.5em;
+  color: $logo-green;
+}
+
+#media-list {
+  margin: 50px 20px;
+  padding: 0;
+  width: 90%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#media-list th {
+  background: transparent;
+  border: 1px solid $dark-grey;
+  color: $white;
+  font-weight: bold;
+}
+
+#media-list tr {
+  border: 1px solid $light-grey;
+}
+
+#media-list td {
+  font-size: 1.2em;
+  background: linear-gradient($white, $offwhite);
+  color: $dark-blue;
+}
+
+td.media-name {
+  margin: auto 0;
+  min-width: 200px;
+  padding: 25px;
+}
+
+td.media-edit {
+  text-align: center;
+}
+
+td.media-edit span {
+  padding: 25px 10px;
+  font-size: 1.2em;
+}
+
+td.media-remove {
+  text-align: center;
+}
+
+td.media-remove span {
+  padding: 25px 10px;
+  font-size: 1.2em;
+}
+
+#media-form {
+  margin: 30px auto;
+  padding: 50px;
+  width: 100%;
+  // background: linear-gradient($dark-grey, $black);
+  background: white;
+  // color: $white;
+  border-radius: 30px;
+
+  // Input forms styles
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  select,
+  textarea {
+    max-width: 100% !important;
+  }
+
+  input[type='text']:hover,
+  input[type='email']:hover,
+  input[type='password']:hover,
+  select:hover,
+  textarea:hover,
+  input[type='text']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus,
+  select:focus,
+  textarea:focus {
+    border-color: $color-primary !important;
+    outline: 1px solid $color-primary !important;
+  }
+}
+
+#media-form .section-help {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 20px;
+  font-size: 1.2em;
+  background-color: $offwhite;
+  color: $dark-grey;
+  border: 1px solid $light-grey;
+}
+
+#media-form label {
+  padding: 15px;
+  font-weight: bold;
+  display: block;
+}
+
+#media-form input {
+  padding: 10px;
+  // font-size: 2em;
+}
+
+#media-form textarea {
+  // font-size: 1.5em;
+}
+
+#media-form .controls {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 50px;
+  border-top: 1px solid $light-grey;
+}
+
 //////////////
 // Explorer //
 //////////////

@@ -256,7 +256,7 @@ tags
 dump.rdb
 
 ### Project template
-app/media/
+app/public_media/
 app/private_media/
 
 .pytest_cache/

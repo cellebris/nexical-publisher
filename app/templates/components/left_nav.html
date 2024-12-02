@@ -9,13 +9,21 @@
           <img width="32" height="32" src="{% static 'images/icons/favicon-32x32.png' %}" alt="nexical logo" />
         </a>
         <a href="{% ui_url %}" id="nav-logo-full" class="nav_logo d-none">
-          <img class="brand" src="{% static 'images/logos/nexical-logo-full-mix.png' %}" alt="nexical logo" />
+          <img class="brand" src="{% static 'images/logos/logo-full-dark.svg' %}" alt="nexical logo" />
         </a>
         <div class="nav_list border-top pt-4">
           {% if team_member %}
             <a id="lnk-teams" href="{% ui_url 'teams' %}" class="nav_link text-decoration-none">
               <i class="bx bx-shape-polygon"></i>
               <span class="nav_name">{% translate 'Teams' %}</span>
+            </a>
+            <a id="lnk-pages" href="{% ui_url 'pages' %}" class="nav_link text-decoration-none">
+              <i class="bx bx-list-check"></i>
+              <span class="nav_name">{% translate 'Pages' %}</span>
+            </a>
+            <a id="lnk-media" href="{% ui_url 'media' %}" class="nav_link text-decoration-none">
+              <i class="bx bx-images"></i>
+              <span class="nav_name">{% translate 'Media' %}</span>
             </a>
             <a id="lnk-documents" href="{% ui_url 'documents' %}" class="nav_link text-decoration-none">
               <i class="bx bx-library"></i>

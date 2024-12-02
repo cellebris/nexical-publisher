@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+
 import re
 from pathlib import Path
 
@@ -119,6 +120,7 @@ LOCAL_APPS = [
     "app.teams",
     "app.projects",
     "app.documents",
+    "app.media",
     "app.research",
     "app.feedback",
     "app.submissions",
@@ -198,7 +200,7 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR / "media")
+MEDIA_ROOT = str(APPS_DIR / "public_media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 

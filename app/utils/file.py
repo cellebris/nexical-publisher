@@ -1,4 +1,5 @@
 import base64
+import requests
 
 
 def get_file_content(file):
@@ -11,3 +12,8 @@ def get_file_content(file):
         if handle:
             handle.close()
     return content
+
+
+def get_url_content(url):
+    content = requests.get(url).content
+    return base64.b64encode(content)

@@ -28,6 +28,7 @@ urlpatterns = [
     path("teams/", include("app.teams.urls", namespace="teams")),
     path("projects/", include("app.projects.urls", namespace="projects")),
     path("documents/", include("app.documents.urls", namespace="documents")),
+    path("media/", include("app.media.urls", namespace="media")),
     path("research/", include("app.research.urls", namespace="research")),
     path("feedback/", include("app.feedback.urls", namespace="feedback")),
     path("select2/", include("django_select2.urls")),
