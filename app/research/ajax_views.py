@@ -32,59 +32,62 @@ def get_summary_references(summary):
     total_score = sum(summary.references.all().values_list("score", flat=True))
 
     for reference in summary.references.all().order_by("-score"):
-        information = {"type": reference.type, "score": round((reference.score / total_score) * 100, 0)}
-        if reference.type in ["team_document", "file"]:
-            try:
-                document = TeamDocument.objects.get(id=reference.document_id)
-                name = document.file.path.split("/")[-1]
+        score = round((reference.score / total_score) * 100, 0)
+        information = {"type": reference.type, "score": score}
 
-                information["id"] = document.id
-                information["type"] = f"File @ {document.collection.team}"
-                information["link"] = format_html(f'<a href="{document.file.url}" target="_blank">{name}</a>')
-            except TeamDocument.DoesNotExist:
-                information = None
+        if score > 0:
+            if reference.type in ["team_document", "file"]:
+                try:
+                    document = TeamDocument.objects.get(id=reference.document_id)
+                    name = document.file.path.split("/")[-1]
 
-        elif reference.type == "bookmark":
-            try:
-                bookmark = TeamBookmark.objects.get(id=reference.document_id)
+                    information["id"] = document.id
+                    information["type"] = f"File @ {document.collection.team}"
+                    information["link"] = format_html(f'<a href="{document.file.url}" target="_blank">{name}</a>')
+                except TeamDocument.DoesNotExist:
+                    information = None
 
-                information["id"] = bookmark.id
-                information["type"] = f"Bookmark @ {bookmark.collection.team}"
-                information["link"] = format_html(
-                    f'<a href="{bookmark.url}" class="bookmark-ref-link" target="_blank">{bookmark.url}</a>'
-                )
+            elif reference.type == "bookmark":
+                try:
+                    bookmark = TeamBookmark.objects.get(id=reference.document_id)
 
-            except TeamBookmark.DoesNotExist:
-                information = None
+                    information["id"] = bookmark.id
+                    information["type"] = f"Bookmark @ {bookmark.collection.team}"
+                    information["link"] = format_html(
+                        f'<a href="{bookmark.url}" class="bookmark-ref-link" target="_blank">{bookmark.url}</a>'
+                    )
 
-        elif reference.type == "note":
-            try:
-                note = ProjectNote.objects.get(id=reference.document_id)
-                link = reverse("research:note", kwargs={"pk": note.id})
+                except TeamBookmark.DoesNotExist:
+                    information = None
 
-                information["id"] = note.id
-                information["type"] = f"Note @ {note.project.team}"
-                information["link"] = format_html(f'<a href="{link}" class="note-ref-link">{note.name}</a>')
+            elif reference.type == "note":
+                try:
+                    note = ProjectNote.objects.get(id=reference.document_id)
+                    link = reverse("research:note", kwargs={"pk": note.id})
 
-            except ProjectNote.DoesNotExist:
-                information = None
+                    information["id"] = note.id
+                    information["type"] = f"Note @ {note.project.team}"
+                    information["link"] = format_html(f'<a href="{link}" class="note-ref-link">{note.name}</a>')
 
-        elif reference.type == "summary":
-            try:
-                summary = ProjectSummary.objects.get(id=reference.document_id)
-                text = re.sub(r"<.*?>", "", summary.summary)
-                name = summary.name if summary.name else ((text[:50] + "...") if len(text) > 50 else text)
-                link = reverse("research:summary", kwargs={"pk": summary.id})
+                except ProjectNote.DoesNotExist:
+                    information = None
 
-                information["id"] = summary.id
-                information["type"] = f"Summary @ {summary.project.team}"
-                information["link"] = format_html(f'<a href="{link}" class="summary-ref-link">{name}</a>')
+            elif reference.type == "summary":
+                try:
+                    summary = ProjectSummary.objects.get(id=reference.document_id)
+                    text = re.sub(r"<.*?>", "", summary.summary)
+                    name = summary.name if summary.name else ((text[:50] + "...") if len(text) > 50 else text)
+                    link = reverse("research:summary", kwargs={"pk": summary.id})
 
-            except ProjectSummary.DoesNotExist:
-                information = None
+                    information["id"] = summary.id
+                    information["type"] = f"Summary @ {summary.project.team}"
+                    information["link"] = format_html(f'<a href="{link}" class="summary-ref-link">{name}</a>')
 
-        if information:
-            references.append(information)
+                except ProjectSummary.DoesNotExist:
+                    information = None
+
+            if information:
+                references.append(information)
 
     return references
 
